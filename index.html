@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14213d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Word Battle Drill</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+*{box-sizing:border-box}html,body{margin:0}[hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+/* Layout: one column drill station — theme chips, mode switch, one big card, controls under it */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --fg:#14213d; --muted:#5b6478; --line:#d9deea;
+  --accent:#c9851a; --accent-soft:#fbefd9; --ok:#1f7a4d; --ok-soft:#dff3e8; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --display:"Bricolage Grotesque",system-ui,sans-serif; --body:"Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1524; --surface:#18213a; --fg:#eef1f8; --muted:#a3acc2; --line:#2b3658;
+  --accent:#f0b04a; --accent-soft:#3a2e17; --ok:#6fd3a0; --ok-soft:#173528; --bad:#ff8a80; --bad-soft:#3d1c1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1524; --surface:#18213a; --fg:#eef1f8; --muted:#a3acc2; --line:#2b3658;
+  --accent:#f0b04a; --accent-soft:#3a2e17; --ok:#6fd3a0; --ok-soft:#173528; --bad:#ff8a80; --bad-soft:#3d1c1a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:17px/1.5 var(--body)}
+.wrap{max-width:720px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1{font:800 clamp(1.7rem,5vw,2.4rem)/1.1 var(--display);margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0}
+.label{font:600 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.modes{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;width:fit-content}
+.modes button{border:0;background:var(--surface);color:var(--fg);padding:8px 16px;font:600 .95rem var(--body);cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--accent);color:#1a1205}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px;min-height:240px;display:flex;flex-direction:column;gap:12px;cursor:pointer;box-shadow:0 6px 24px rgba(20,33,61,.07)}
+.card .theme{color:var(--accent);font:600 .8rem var(--body);letter-spacing:.06em;text-transform:uppercase}
+.word{font:800 clamp(1.8rem,7vw,2.6rem)/1.1 var(--display);margin:0;overflow-wrap:anywhere}
+.def{font-size:1.1rem;margin:0}
+.syn,.ex{margin:0;color:var(--muted)}
+.ex{font-style:italic}
+.syn b{color:var(--fg);font-weight:600}
+.hint{color:var(--muted);font-size:.9rem;margin-top:auto}
+.choices{display:grid;gap:10px}
+.choices button{text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:10px;padding:12px 14px;font:600 1.05rem var(--body);cursor:pointer}
+.choices button.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.choices button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:10px 16px;font:600 1rem var(--body);cursor:pointer}
+.btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn.know{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.stats{color:var(--muted);font-variant-numeric:tabular-nums}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tips{background:var(--accent-soft);border-radius:12px;padding:14px 18px}
+.tips ul{margin:6px 0 0;padding-left:20px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Word Battle Drill</h1>
+    <p class="sub">UEFC 2026 · quart de finale du 31 octobre · 10 thèmes, 150 mots avec définition, synonymes et exemple.</p>
+  </header>
+
+  <div>
+    <div class="label">Thème</div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="bar">
+    <div class="modes" role="group" aria-label="Mode">
+      <button id="m-cards" aria-pressed="true">Cartes</button>
+      <button id="m-quiz" aria-pressed="false">Quiz</button>
+      <button id="m-buzz" aria-pressed="false">Buzzer</button>
+    </div>
+    <label class="stats"><input type="checkbox" id="hideKnown"> cacher les mots sus</label>
+  </div>
+
+  <div id="stage"></div>
+
+  <div class="bar">
+    <span class="stats" id="stats"></span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="prev">Précédent</button>
+      <button class="btn know" id="know">Je le sais</button>
+      <button class="btn primary" id="next">Suivant</button>
+    </div>
+  </div>
+
+  <div class="tips">
+    <strong>Pour le jour J</strong>
+    <ul>
+      <li>Format officiel : duel en 5 manches. Le jury lit une définition, tu buzzes dès que tu as le mot et tu as <b>5 secondes</b> pour le dire.</li>
+      <li>Une mauvaise réponse donne 5 secondes à l'adversaire. Ne buzze pas au hasard en fin de lecture.</li>
+      <li>Donne le mot exact : un synonyme ne compte que s'il est dans la liste du jury.</li>
+      <li>Attention au singulier/pluriel et à la prononciation : dis le mot clairement, une seule fois.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const D={
+"School":[
+["curriculum","the set of subjects and content taught in a school or programme","syllabus, programme of study","The new curriculum includes coding from primary school."],
+["syllabus","the detailed outline of topics covered in one course","course outline","The exam covers everything on the syllabus."],
+["tuition","money paid for teaching; also, the teaching itself","fees, instruction","Tuition at private universities keeps rising."],
+["enrol","to officially register as a student","register, sign up","She enrolled in a master's programme last year."],
+["assessment","the process of evaluating a student's knowledge or skills","evaluation, appraisal","Continuous assessment counts for 40% of the grade."],
+["transcript","an official record of a student's courses and grades","academic record","Universities ask for your transcript when you apply."],
+["plagiarism","presenting someone else's work or ideas as your own","copying, cheating","Plagiarism can lead to expulsion."],
+["attendance","being present at classes, or the number of people present","presence, turnout","Attendance is compulsory for practical sessions."],
+["truancy","staying away from school without permission","absenteeism, skipping class","Truancy often signals problems at home."],
+["scholarship","money given to a student to pay for studies, usually based on merit","grant, bursary","He won a scholarship to study in France."],
+["dissertation","a long piece of written research, usually at the end of a degree","thesis","I'm writing my dissertation on water quality."],
+["tutor","a teacher who gives individual or small-group lessons","mentor, coach","My tutor helped me with fluid mechanics."],
+["semester","one of two terms that divide the academic year","term","The second semester starts in February."],
+["extracurricular","activities done outside the normal timetable","after-school","Debate club is my favourite extracurricular activity."],
+["dean","the head of a faculty in a university","faculty head","The dean signed our certificates."]],
+"Climate Change":[
+["greenhouse gas","a gas such as CO₂ or methane that traps heat in the atmosphere","GHG, heat-trapping gas","Cars release greenhouse gases every day."],
+["emissions","gases or substances released into the air","discharge, release","The country pledged to cut its emissions by half."],
+["mitigation","actions that reduce the causes of climate change","reduction, alleviation","Planting forests is a mitigation measure."],
+["adaptation","adjusting to the effects of climate change","adjustment","Building higher dikes is a form of adaptation."],
+["drought","a long period with little or no rain","dry spell, water shortage","The drought destroyed the harvest."],
+["carbon footprint","the total greenhouse gases caused by a person or activity","emissions profile","Flying increases your carbon footprint."],
+["renewable energy","energy from sources that do not run out, like sun and wind","clean energy, green energy","Solar power is the fastest-growing renewable energy."],
+["deforestation","the large-scale cutting down of forests","logging, forest clearance","Deforestation reduces rainfall in the region."],
+["sea-level rise","the increase in the average height of the ocean","rising seas","Sea-level rise threatens coastal cities like Cotonou."],
+["resilience","the ability to recover quickly from shocks","toughness, adaptability","Early warning systems build community resilience."],
+["sustainability","using resources without harming future generations","sustainable development","Sustainability is now part of every company's strategy."],
+["heatwave","a period of unusually hot weather","heat spell","The heatwave sent hundreds to hospital."],
+["biodiversity","the variety of living species in an area","biological diversity","Wetlands are rich in biodiversity."],
+["net zero","balancing the emissions produced with those removed","carbon neutrality","The EU aims for net zero by 2050."],
+["flood","an overflow of water onto normally dry land","inundation, deluge","Floods hit the lake villages every rainy season."]],
+"Economics":[
+["inflation","a general rise in prices over time","price increase","Inflation reduces the value of savings."],
+["recession","a period when the economy shrinks and activity falls","downturn, slump","Many firms closed during the recession."],
+["GDP","gross domestic product: the total value of goods and services produced in a country","national output","Benin's GDP grew by about 6% last year."],
+["supply and demand","the relation between what is available and what people want to buy","market forces","Prices depend on supply and demand."],
+["unemployment","the state of not having a job while looking for one","joblessness","Youth unemployment is a major concern."],
+["budget deficit","when a government spends more than it earns","shortfall","The budget deficit forced new taxes."],
+["interest rate","the percentage charged for borrowing money","lending rate","The central bank raised interest rates."],
+["subsidy","money paid by the government to lower a cost","grant, aid","Fuel subsidies keep transport cheap."],
+["tariff","a tax on imported or exported goods","customs duty, levy","New tariffs made imported cars more expensive."],
+["monopoly","when one company controls a whole market","exclusive control","The state company had a monopoly on electricity."],
+["currency","the system of money used in a country","money, legal tender","The CFA franc is the currency of Benin."],
+["scarcity","a situation where resources are limited compared to needs","shortage, lack","Economics is the study of scarcity."],
+["investment","money put into something to make a profit later","funding, capital","Foreign investment created thousands of jobs."],
+["poverty","the state of having too little money for basic needs","deprivation, hardship","Education is a way out of poverty."],
+["export","to sell goods to another country","ship abroad","Benin exports cotton and cashew nuts."]],
+"Cybersecurity":[
+["phishing","fake messages that trick people into giving personal data","scam email, fraud","Never click links in phishing emails."],
+["malware","software designed to damage or control a computer","malicious software","The malware stole all her passwords."],
+["ransomware","malware that locks files until a ransom is paid","extortion software","Hospitals are frequent ransomware targets."],
+["firewall","a system that blocks unauthorised network traffic","network barrier","The firewall stopped the attack."],
+["encryption","converting data into a code so only authorised people can read it","encoding, ciphering","WhatsApp uses end-to-end encryption."],
+["data breach","an incident where private data is accessed or leaked","leak, security incident","The bank reported a data breach affecting clients."],
+["hacker","a person who gains unauthorised access to systems","cybercriminal, intruder","Ethical hackers test systems to find weaknesses."],
+["two-factor authentication","a login method requiring two separate proofs of identity","2FA, multi-factor","Turn on two-factor authentication for your email."],
+["vulnerability","a weakness that attackers can exploit","flaw, loophole","The update fixed a critical vulnerability."],
+["patch","a software update that fixes a problem","fix, update","Install security patches as soon as they come out."],
+["backup","a copy of data kept in case the original is lost","copy, archive","Without a backup, the files were gone forever."],
+["identity theft","using someone else's personal information illegally","impersonation, fraud","Identity theft can ruin your credit."],
+["spyware","software that secretly watches what you do","tracking software","Spyware recorded every key she typed."],
+["password","a secret word or phrase used to access an account","passcode, PIN","Use a long password with symbols."],
+["cyberattack","an attempt to damage or disrupt computer systems","hack, digital assault","The cyberattack shut down the airport's screens."]],
+"Hospital":[
+["ward","a room or section of a hospital for a type of patient","unit","She stayed three days in the maternity ward."],
+["outpatient","a patient treated without staying overnight","day patient","The outpatient clinic opens at 8 a.m."],
+["inpatient","a patient who stays in hospital for treatment","admitted patient","Inpatients receive three meals a day."],
+["surgeon","a doctor who performs operations","operating doctor","The surgeon removed his appendix."],
+["diagnosis","identifying an illness from its symptoms","identification, assessment","An early diagnosis saved her life."],
+["prescription","a doctor's written order for medicine","medical order","You need a prescription for antibiotics."],
+["emergency room","the department that treats urgent cases","ER, A&E, casualty","He was rushed to the emergency room."],
+["symptom","a sign that shows someone may be ill","sign, indication","Fever is a common symptom of malaria."],
+["vaccine","a substance that protects the body against a disease","immunisation, jab","The vaccine is free for children."],
+["discharge","to officially allow a patient to leave hospital","release","She was discharged after two days."],
+["recovery","the process of getting healthy again","healing, recuperation","He made a full recovery."],
+["pharmacist","a person trained to prepare and sell medicines","chemist, druggist","Ask the pharmacist about side effects."],
+["ICU","intensive care unit: the ward for very seriously ill patients","critical care","After the crash he spent a week in the ICU."],
+["side effect","an unwanted effect of a medicine","adverse reaction","Drowsiness is a side effect of this drug."],
+["check-up","a general medical examination","examination, physical","Get a check-up once a year."]],
+"Company":[
+["CEO","chief executive officer: the highest-ranking manager","managing director, chief executive","The CEO announced record profits."],
+["shareholder","a person who owns shares in a company","stockholder, investor","Shareholders voted for the merger."],
+["revenue","the total income a company receives from sales","turnover, income","Revenue grew by 20% this year."],
+["profit","money left after paying all costs","earnings, gain","The startup made its first profit."],
+["merger","the joining of two companies into one","amalgamation, fusion","The merger created the country's largest bank."],
+["recruit","to find and hire new employees","hire, take on","We are recruiting two engineers."],
+["resign","to leave a job voluntarily","quit, step down","The manager resigned after the scandal."],
+["headquarters","the main office of an organisation","head office, HQ","Our headquarters are in Cotonou."],
+["startup","a newly created, often innovative company","new venture","Their startup sells salinity sensors."],
+["stakeholder","anyone affected by or interested in a company's activity","interested party","Local communities are key stakeholders."],
+["payroll","the list of employees and the salaries paid to them","wage bill","The company has 200 people on its payroll."],
+["promotion","a move to a higher position at work","advancement, upgrade","She got a promotion after two years."],
+["branch","a local office of a larger organisation","subsidiary office, outlet","The bank opened a new branch in Parakou."],
+["deadline","the latest time by which something must be done","due date, time limit","The deadline for the report is Friday."],
+["workforce","all the people who work for a company","staff, personnel","Women make up half of our workforce."]],
+"Airport":[
+["boarding pass","the document that allows you to get on a plane","boarding card","Show your boarding pass at the gate."],
+["check-in","registering for a flight and dropping luggage","registration","Check-in closes one hour before departure."],
+["layover","a stop between two flights on a journey","stopover, connection","I had a six-hour layover in Paris."],
+["customs","the place where goods and luggage are checked on entry","border control","Customs officers searched my bag."],
+["departure","the act of leaving, especially of a flight","take-off, leaving","Departures are on the first floor."],
+["gate","the exit where passengers board a plane","boarding gate","Flight AF 703 is now boarding at gate 12."],
+["runway","the strip where planes take off and land","airstrip, landing strip","The plane is taxiing to the runway."],
+["luggage","bags and suitcases taken on a trip","baggage","My luggage was lost in transit."],
+["carry-on","a small bag allowed in the cabin","hand luggage, cabin bag","Liquids in your carry-on must be under 100 ml."],
+["delay","a situation where a flight leaves later than planned","postponement, hold-up","The storm caused a two-hour delay."],
+["terminal","a building where passengers depart and arrive","concourse","International flights leave from Terminal 2."],
+["jet lag","tiredness caused by crossing time zones","travel fatigue","I had terrible jet lag after flying to Tokyo."],
+["turbulence","sudden, irregular movement of air that shakes a plane","rough air","Please fasten your seatbelts due to turbulence."],
+["passport control","the checkpoint where travel documents are inspected","immigration","There was a long queue at passport control."],
+["baggage claim","the area where passengers collect checked bags","luggage reclaim","Wait for your suitcase at baggage claim."]],
+"Banking":[
+["account","an arrangement to keep money in a bank","bank account","I opened a savings account."],
+["deposit","to put money into an account; the money put in","pay in, lodge","She deposited her salary on Monday."],
+["withdraw","to take money out of an account","take out","You can withdraw cash at any ATM."],
+["loan","money borrowed that must be paid back with interest","credit, advance","He took a loan to buy a car."],
+["mortgage","a long-term loan used to buy property","home loan","They will repay the mortgage over 20 years."],
+["overdraft","when you spend more than you have in your account","negative balance","The overdraft fee was 5,000 francs."],
+["balance","the amount of money in an account","funds, credit","Check your balance on the app."],
+["transfer","moving money from one account to another","wire, remittance","The transfer arrives within 24 hours."],
+["collateral","property pledged to guarantee a loan","security, guarantee","The house served as collateral."],
+["savings","money kept for future use","reserves, nest egg","She used her savings to pay tuition."],
+["bank statement","a record of all transactions on an account","account summary","The embassy asked for three months of bank statements."],
+["teller","a bank employee who serves customers at the counter","cashier, clerk","The teller counted the notes twice."],
+["credit card","a card that lets you borrow money to pay for things","plastic","I paid the hotel with my credit card."],
+["exchange rate","the value of one currency compared to another","conversion rate","The exchange rate is 655.96 francs per euro."],
+["fee","a charge for a service","charge, commission","There is no fee for online transfers."]],
+"Hotel and Hospitality":[
+["reservation","an arrangement to keep a room or table for someone","booking","I have a reservation under the name Binazon."],
+["vacancy","an available room","available room","Sorry, we have no vacancies tonight."],
+["suite","a set of connected rooms in a hotel","apartment, luxury room","The president stayed in the royal suite."],
+["concierge","hotel staff who help guests with services and information","porter, guest services","Ask the concierge to book a taxi."],
+["amenities","features that make a stay comfortable","facilities, comforts","Amenities include a pool and a gym."],
+["check-out","leaving a hotel and paying the bill","departure","Check-out is at noon."],
+["room service","food and drinks delivered to your room","in-room dining","I ordered breakfast from room service."],
+["receptionist","the person who welcomes guests at the front desk","front-desk clerk","The receptionist gave me the key card."],
+["lobby","the entrance hall of a hotel","foyer, reception area","Let's meet in the lobby at 6."],
+["housekeeping","the staff who clean and tidy rooms","cleaning staff","Housekeeping changes the towels daily."],
+["complimentary","free of charge","free, on the house","Breakfast is complimentary."],
+["accommodation","a place to stay","lodging, housing","The price includes accommodation and meals."],
+["hospitality","friendly welcome and care given to guests","welcome, friendliness","Beninese hospitality is famous."],
+["guest","a person staying at a hotel","visitor, client","Guests can use the pool until 10 p.m."],
+["fully booked","having no rooms left","full, sold out","The hotel is fully booked during the summit."]],
+"Restaurant":[
+["menu","the list of dishes available","bill of fare","Could we see the menu, please?"],
+["appetizer","a small dish served before the main course","starter","We shared an appetizer of fried plantain."],
+["main course","the largest dish of a meal","entrée (US), main dish","For the main course I'll have the grilled fish."],
+["dessert","a sweet dish at the end of a meal","pudding, sweet","The dessert was a mango tart."],
+["waiter","a person who serves food at tables","server","The waiter recommended the chef's special."],
+["bill","the paper showing how much you must pay","check (US), tab","Can we have the bill, please?"],
+["tip","extra money given to staff for good service","gratuity","We left a 10% tip."],
+["chef","the head cook in a restaurant","head cook","The chef trained in Lyon."],
+["cuisine","a style of cooking from a place or culture","cooking, gastronomy","I love West African cuisine."],
+["beverage","any drink","drink, refreshment","Beverages are not included in the menu price."],
+["vegetarian","not containing meat; a person who eats no meat","meat-free","Do you have a vegetarian option?"],
+["takeaway","food bought to eat elsewhere","takeout (US), to go","Let's order a takeaway tonight."],
+["ingredient","one of the foods used to make a dish","component","Fresh ingredients make the difference."],
+["portion","the amount of food served to one person","serving, helping","The portions here are huge."],
+["cutlery","knives, forks and spoons","silverware, utensils","The waiter brought clean cutlery."]]
+};
+const THEMES=Object.keys(D);
+const ALL=THEMES.flatMap(t=>D[t].map(([w,d,s,e])=>({t,w,d,s,e})));
+const store={get(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch{return f}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let known=new Set(store.get("wb-known",[]));
+let theme=store.get("wb-theme","Tous"), mode="cards", i=0, flipped=false, score={ok:0,n:0}, answered=false;
+const $=id=>document.getElementById(id);
+function pool(){let p=theme==="Tous"?ALL:ALL.filter(x=>x.t===theme);if($("hideKnown").checked)p=p.filter(x=>!known.has(x.w));return p.length?p:(theme==="Tous"?ALL:ALL.filter(x=>x.t===theme))}
+let order=[];
+function shuffle(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function reset(){order=shuffle(pool());i=0;flipped=false;answered=false;render()}
+function chips(){$("chips").innerHTML=["Tous",...THEMES].map(t=>`<button class="chip" aria-pressed="${t===theme}" data-t="${t}">${t}</button>`).join("");
+  $("chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{theme=b.dataset.t;store.set("wb-theme",theme);chips();score={ok:0,n:0};reset()})}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function render(){
+  const x=order[i];const st=$("stage");
+  if(mode==="cards"){
+    st.innerHTML=`<div class="card" id="card" tabindex="0" role="button" aria-label="Retourner la carte">
+      <span class="theme">${x.t}${known.has(x.w)?" · su":""}</span>
+      <p class="word">${esc(x.w)}</p>
+      ${flipped?`<p class="def">${esc(x.d)}</p><p class="syn"><b>Synonymes :</b> ${esc(x.s)}</p><p class="ex">“${esc(x.e)}”</p>`:`<p class="hint">Définis le mot à voix haute, donne un synonyme et une phrase, puis touche la carte pour vérifier.</p>`}
+    </div>`;
+    const c=$("card");c.onclick=()=>{flipped=!flipped;render()};c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();c.click()}};
+  }else if(mode==="buzz"){
+    const words=x.d.split(" ");
+    if(!x._b)x._b={shown:0,phase:"reading",left:5};
+    const b=x._b;
+    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t} · buzzer</span>
+      <p class="def">${esc(words.slice(0,b.shown).join(" "))}${b.phase==="reading"?" …":""}</p>
+      ${b.phase==="answer"?`<p class="word" style="font-size:2rem">${b.left>0?b.left:"Temps écoulé"}</p><p class="hint">Dis le mot à voix haute maintenant.</p>`:""}
+      ${b.phase==="done"?`<p class="word">${esc(x.w)}</p><p class="syn"><b>Synonymes :</b> ${esc(x.s)}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn know" id="b-ok">Trouvé</button><button class="btn" id="b-ko">Raté</button></div>`:""}
+      ${b.phase==="reading"?`<button class="btn primary" id="b-buzz" style="font-size:1.2rem">Buzz !</button>`:""}
+    </div>`;
+    clearTimeout(timer);
+    if(b.phase==="reading"){
+      $("b-buzz").onclick=()=>{b.phase="answer";render()};
+      timer=setTimeout(()=>{if(b.shown<words.length){b.shown++;render()}else{b.reads=(b.reads||1)+1;if(b.reads>2){b.phase="done";render()}else{b.shown=0;render()}}},b.shown<words.length?330:1200);
+    }else if(b.phase==="answer"){
+      timer=setTimeout(()=>{if(b.left>0){b.left--;render()}else{b.phase="done";render()}},1000);
+    }else if(b.phase==="done"&&!b.marked){
+      $("b-ok").onclick=()=>{b.marked=1;score.ok++;score.n++;go(1)};
+      $("b-ko").onclick=()=>{b.marked=1;score.n++;go(1)};
+    }
+  }else{
+    const others=shuffle(ALL.filter(y=>y.t===x.t&&y.w!==x.w)).slice(0,3);
+    const opts=x._opts||(x._opts=shuffle([x,...others]));
+    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t} · quel mot correspond ?</span>
+      <p class="def">${esc(x.d)}</p><div class="choices">${opts.map(o=>`<button data-w="${esc(o.w)}">${esc(o.w)}</button>`).join("")}</div>
+      ${answered?`<p class="ex">“${esc(x.e)}”</p>`:""}</div>`;
+    st.querySelectorAll(".choices button").forEach(b=>{
+      if(answered){if(b.dataset.w===x.w)b.classList.add("right");else if(b.dataset.w===x._pick)b.classList.add("wrong")}
+      b.onclick=()=>{if(answered)return;answered=true;x._pick=b.dataset.w;score.n++;if(b.dataset.w===x.w)score.ok++;render()}});
+  }
+  $("stats").textContent=`${i+1} / ${order.length} · ${known.size} mots sus sur ${ALL.length}`+(mode!=="cards"?` · score ${score.ok}/${score.n}`:"");
+  $("know").textContent=known.has(x.w)?"Retirer des sus":"Je le sais";
+}
+let timer=null;
+function go(d){clearTimeout(timer);i=(i+d+order.length)%order.length;flipped=false;answered=false;if(order[i]){delete order[i]._opts;delete order[i]._b}render()}
+$("next").onclick=()=>go(1);$("prev").onclick=()=>go(-1);
+$("know").onclick=()=>{const w=order[i].w;known.has(w)?known.delete(w):known.add(w);store.set("wb-known",[...known]);render()};
+$("hideKnown").onchange=reset;
+function setMode(m){clearTimeout(timer);mode=m;["cards","quiz","buzz"].forEach(k=>$("m-"+k).setAttribute("aria-pressed",m===k));score={ok:0,n:0};ALL.forEach(x=>{delete x._b;delete x._opts});reset()}
+$("m-cards").onclick=()=>setMode("cards");$("m-quiz").onclick=()=>setMode("quiz");$("m-buzz").onclick=()=>setMode("buzz");
+document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight")go(1);if(e.key==="ArrowLeft")go(-1)});
+if(theme!=="Tous"&&!THEMES.includes(theme))theme="Tous";
+chips();reset();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
