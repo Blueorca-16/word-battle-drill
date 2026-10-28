@@ -62,7 +62,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 <div class="wrap">
   <header>
     <h1>Word Battle Drill</h1>
-    <p class="sub">UEFC 2026 · quart de finale du 31 octobre · 10 thèmes, 150 mots avec définition, synonymes et exemple.</p>
+    <p class="sub">UEFC 2026 · quart de finale du 31 octobre · 10 thèmes + personnalité, 225 mots dont 75 adjectifs, avec définition, synonymes et exemple.</p>
   </header>
 
   <div>
@@ -104,6 +104,11 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 <script>
 const D={
 "School":[
+["diligent", "working carefully and with a lot of effort", "hard-working, conscientious", "A diligent student revises every evening.", "adj"],
+["compulsory", "required by a rule; that you must do", "mandatory, obligatory", "Attendance is compulsory for lab sessions.", "adj"],
+["illiterate", "unable to read or write", "unlettered", "Adult classes help illiterate parents.", "adj"],
+["academic", "relating to education and study", "scholarly, educational", "Her academic results are excellent.", "adj"],
+["bright", "intelligent and quick to learn", "clever, smart", "He is one of the brightest pupils in the class.", "adj"],
 ["curriculum","the set of subjects and content taught in a school or programme","syllabus, programme of study","The new curriculum includes coding from primary school."],
 ["syllabus","the detailed outline of topics covered in one course","course outline","The exam covers everything on the syllabus."],
 ["tuition","money paid for teaching; also, the teaching itself","fees, instruction","Tuition at private universities keeps rising."],
@@ -120,6 +125,11 @@ const D={
 ["extracurricular","activities done outside the normal timetable","after-school","Debate club is my favourite extracurricular activity."],
 ["dean","the head of a faculty in a university","faculty head","The dean signed our certificates."]],
 "Climate Change":[
+["sustainable", "able to continue without damaging the environment", "eco-friendly, green", "We need sustainable farming.", "adj"],
+["arid", "very dry, with little rain", "dry, parched", "The north of the country is becoming more arid.", "adj"],
+["vulnerable", "easily harmed or affected", "exposed, at risk", "Coastal communities are vulnerable to floods.", "adj"],
+["scorching", "extremely hot", "blazing, sweltering", "It was a scorching afternoon in March.", "adj"],
+["irreversible", "impossible to change back", "permanent, irreparable", "Some climate damage is irreversible.", "adj"],
 ["greenhouse gas","a gas such as CO₂ or methane that traps heat in the atmosphere","GHG, heat-trapping gas","Cars release greenhouse gases every day."],
 ["emissions","gases or substances released into the air","discharge, release","The country pledged to cut its emissions by half."],
 ["mitigation","actions that reduce the causes of climate change","reduction, alleviation","Planting forests is a mitigation measure."],
@@ -136,6 +146,11 @@ const D={
 ["net zero","balancing the emissions produced with those removed","carbon neutrality","The EU aims for net zero by 2050."],
 ["flood","an overflow of water onto normally dry land","inundation, deluge","Floods hit the lake villages every rainy season."]],
 "Economics":[
+["affordable", "cheap enough for people to buy", "inexpensive, reasonable", "Housing is no longer affordable in the capital.", "adj"],
+["lucrative", "producing a lot of money", "profitable, rewarding", "Exporting cashew nuts is a lucrative business.", "adj"],
+["bankrupt", "unable to pay debts", "insolvent, broke", "The company went bankrupt after the crisis.", "adj"],
+["frugal", "careful not to spend more money than necessary", "thrifty, economical", "A frugal family saves part of every salary.", "adj"],
+["sluggish", "moving or growing slowly", "slow, stagnant", "Growth remained sluggish last year.", "adj"],
 ["inflation","a general rise in prices over time","price increase","Inflation reduces the value of savings."],
 ["recession","a period when the economy shrinks and activity falls","downturn, slump","Many firms closed during the recession."],
 ["GDP","gross domestic product: the total value of goods and services produced in a country","national output","Benin's GDP grew by about 6% last year."],
@@ -152,6 +167,11 @@ const D={
 ["poverty","the state of having too little money for basic needs","deprivation, hardship","Education is a way out of poverty."],
 ["export","to sell goods to another country","ship abroad","Benin exports cotton and cashew nuts."]],
 "Cybersecurity":[
+["gullible", "easily tricked into believing something false", "naive, credulous", "Scammers target gullible users with fake prizes.", "adj"],
+["malicious", "intended to cause harm", "harmful, hostile", "The file contained malicious code.", "adj"],
+["fraudulent", "dishonest and illegal, meant to deceive", "fake, deceptive", "She received a fraudulent message from a fake bank.", "adj"],
+["anonymous", "with a name or identity that is not known", "unnamed, unidentified", "The attack came from an anonymous account.", "adj"],
+["secure", "protected from danger or attack", "safe, protected", "Use a secure network for online banking.", "adj"],
 ["phishing","fake messages that trick people into giving personal data","scam email, fraud","Never click links in phishing emails."],
 ["malware","software designed to damage or control a computer","malicious software","The malware stole all her passwords."],
 ["ransomware","malware that locks files until a ransom is paid","extortion software","Hospitals are frequent ransomware targets."],
@@ -168,6 +188,11 @@ const D={
 ["password","a secret word or phrase used to access an account","passcode, PIN","Use a long password with symbols."],
 ["cyberattack","an attempt to damage or disrupt computer systems","hack, digital assault","The cyberattack shut down the airport's screens."]],
 "Hospital":[
+["contagious", "able to spread from one person to another", "infectious, catching", "Measles is highly contagious.", "adj"],
+["chronic", "lasting a long time or coming back often", "long-term, persistent", "Diabetes is a chronic disease.", "adj"],
+["fatal", "causing death", "deadly, lethal", "The accident was fatal.", "adj"],
+["sterile", "completely clean and free of germs", "sterilized, aseptic", "Surgeons use sterile instruments.", "adj"],
+["benign", "not dangerous to health; not cancerous", "harmless, non-malignant", "Luckily, the tumour was benign.", "adj"],
 ["ward","a room or section of a hospital for a type of patient","unit","She stayed three days in the maternity ward."],
 ["outpatient","a patient treated without staying overnight","day patient","The outpatient clinic opens at 8 a.m."],
 ["inpatient","a patient who stays in hospital for treatment","admitted patient","Inpatients receive three meals a day."],
@@ -184,6 +209,11 @@ const D={
 ["side effect","an unwanted effect of a medicine","adverse reaction","Drowsiness is a side effect of this drug."],
 ["check-up","a general medical examination","examination, physical","Get a check-up once a year."]],
 "Company":[
+["competitive", "trying hard to be better than others; able to compete", "aggressive, rival", "The phone market is very competitive.", "adj"],
+["profitable", "making a profit", "lucrative, money-making", "The new branch is already profitable.", "adj"],
+["ambitious", "having a strong wish to succeed", "driven, determined", "An ambitious manager wants promotion quickly.", "adj"],
+["efficient", "working well without wasting time or money", "productive, effective", "Our new process is more efficient.", "adj"],
+["multinational", "operating in several countries", "global, international", "She works for a multinational firm.", "adj"],
 ["CEO","chief executive officer: the highest-ranking manager","managing director, chief executive","The CEO announced record profits."],
 ["shareholder","a person who owns shares in a company","stockholder, investor","Shareholders voted for the merger."],
 ["revenue","the total income a company receives from sales","turnover, income","Revenue grew by 20% this year."],
@@ -200,6 +230,11 @@ const D={
 ["deadline","the latest time by which something must be done","due date, time limit","The deadline for the report is Friday."],
 ["workforce","all the people who work for a company","staff, personnel","Women make up half of our workforce."]],
 "Airport":[
+["domestic", "inside one country", "internal, national", "Domestic flights leave from Terminal 1.", "adj"],
+["delayed", "later than planned", "late, postponed", "Our flight was delayed by two hours.", "adj"],
+["jet-lagged", "tired after flying across time zones", "travel-weary", "I felt jet-lagged for three days.", "adj"],
+["fragile", "easily broken", "breakable, delicate", "Mark the box as fragile.", "adj"],
+["overweight", "heavier than allowed", "excess, too heavy", "My suitcase was overweight, so I paid a fee.", "adj"],
 ["boarding pass","the document that allows you to get on a plane","boarding card","Show your boarding pass at the gate."],
 ["check-in","registering for a flight and dropping luggage","registration","Check-in closes one hour before departure."],
 ["layover","a stop between two flights on a journey","stopover, connection","I had a six-hour layover in Paris."],
@@ -216,6 +251,11 @@ const D={
 ["passport control","the checkpoint where travel documents are inspected","immigration","There was a long queue at passport control."],
 ["baggage claim","the area where passengers collect checked bags","luggage reclaim","Wait for your suitcase at baggage claim."]],
 "Banking":[
+["solvent", "having enough money to pay all debts", "financially sound", "The bank remains solvent despite the crisis.", "adj"],
+["wealthy", "having a lot of money", "rich, affluent", "Wealthy clients get a private adviser.", "adj"],
+["creditworthy", "considered able to repay a loan", "reliable, trustworthy", "Only creditworthy customers receive loans.", "adj"],
+["overdue", "not paid by the required date", "late, outstanding", "Your payment is two weeks overdue.", "adj"],
+["interest-free", "with no interest charged", "zero-interest", "They offered an interest-free loan for students.", "adj"],
 ["account","an arrangement to keep money in a bank","bank account","I opened a savings account."],
 ["deposit","to put money into an account; the money put in","pay in, lodge","She deposited her salary on Monday."],
 ["withdraw","to take money out of an account","take out","You can withdraw cash at any ATM."],
@@ -232,6 +272,11 @@ const D={
 ["exchange rate","the value of one currency compared to another","conversion rate","The exchange rate is 655.96 francs per euro."],
 ["fee","a charge for a service","charge, commission","There is no fee for online transfers."]],
 "Hotel and Hospitality":[
+["spacious", "having a lot of room", "roomy, large", "The suite is spacious and bright.", "adj"],
+["cosy", "comfortable, warm and pleasant", "snug, comfortable", "We stayed in a cosy little guesthouse.", "adj"],
+["luxurious", "very comfortable and expensive", "lavish, plush", "The hotel has a luxurious spa.", "adj"],
+["hospitable", "friendly and welcoming to guests", "welcoming, warm", "The staff were very hospitable.", "adj"],
+["vacant", "empty and available", "free, unoccupied", "Two rooms are still vacant.", "adj"],
 ["reservation","an arrangement to keep a room or table for someone","booking","I have a reservation under the name Binazon."],
 ["vacancy","an available room","available room","Sorry, we have no vacancies tonight."],
 ["suite","a set of connected rooms in a hotel","apartment, luxury room","The president stayed in the royal suite."],
@@ -248,6 +293,11 @@ const D={
 ["guest","a person staying at a hotel","visitor, client","Guests can use the pool until 10 p.m."],
 ["fully booked","having no rooms left","full, sold out","The hotel is fully booked during the summit."]],
 "Restaurant":[
+["delicious", "having a very pleasant taste", "tasty, mouth-watering", "The grilled fish was delicious.", "adj"],
+["bland", "having little flavour", "tasteless, insipid", "The soup was bland, so I added salt.", "adj"],
+["spicy", "having a strong, hot flavour", "hot, peppery", "Beninese sauces are often spicy.", "adj"],
+["stale", "no longer fresh", "old, dry", "The bread was stale.", "adj"],
+["tender", "soft and easy to cut or chew", "soft, juicy", "The meat was tender.", "adj"],
 ["menu","the list of dishes available","bill of fare","Could we see the menu, please?"],
 ["appetizer","a small dish served before the main course","starter","We shared an appetizer of fried plantain."],
 ["main course","the largest dish of a meal","entrée (US), main dish","For the main course I'll have the grilled fish."],
@@ -262,26 +312,53 @@ const D={
 ["takeaway","food bought to eat elsewhere","takeout (US), to go","Let's order a takeaway tonight."],
 ["ingredient","one of the foods used to make a dish","component","Fresh ingredients make the difference."],
 ["portion","the amount of food served to one person","serving, helping","The portions here are huge."],
-["cutlery","knives, forks and spoons","silverware, utensils","The waiter brought clean cutlery."]]
+["cutlery","knives, forks and spoons","silverware, utensils","The waiter brought clean cutlery."]],
+"Personality":[
+["gullible", "easily tricked into believing something false", "naive, credulous", "He's so gullible that he believed the fake news.", "adj"],
+["naive", "lacking experience and too trusting", "innocent, credulous", "It was naive to lend money to a stranger.", "adj"],
+["stubborn", "refusing to change your opinion", "obstinate, headstrong", "My brother is too stubborn to apologise.", "adj"],
+["reliable", "able to be trusted to do what is expected", "dependable, trustworthy", "She is a reliable colleague.", "adj"],
+["generous", "happy to give money, time or help", "giving, charitable", "Our host was very generous.", "adj"],
+["stingy", "unwilling to spend or give money", "mean, tight-fisted", "He is too stingy to buy a coffee.", "adj"],
+["arrogant", "believing you are better than others", "conceited, haughty", "The arrogant player ignored his coach.", "adj"],
+["humble", "not proud; modest about your success", "modest, unassuming", "Despite his fame, he stayed humble.", "adj"],
+["shy", "nervous and uncomfortable with other people", "timid, reserved", "She is too shy to speak in public.", "adj"],
+["outgoing", "friendly and enjoying meeting people", "sociable, extroverted", "Outgoing people make friends easily.", "adj"],
+["deceitful", "trying to make people believe things that are false", "dishonest, lying", "The deceitful seller hid the defects.", "adj"],
+["lazy", "not willing to work or make effort", "idle, indolent", "Don't be lazy, finish your homework.", "adj"],
+["cautious", "careful to avoid risks", "careful, prudent", "A cautious driver slows down at night.", "adj"],
+["reckless", "doing dangerous things without thinking", "careless, rash", "Reckless driving causes accidents.", "adj"],
+["patient", "able to wait calmly", "tolerant, calm", "Teachers must be patient with beginners.", "adj"],
+["moody", "with feelings that change quickly", "temperamental, grumpy", "He is moody in the morning.", "adj"],
+["optimistic", "expecting good things to happen", "hopeful, positive", "I'm optimistic about the results.", "adj"],
+["pessimistic", "expecting bad things to happen", "gloomy, negative", "Don't be so pessimistic, you will pass.", "adj"],
+["sceptical", "doubting that something is true", "doubtful, distrustful", "Scientists are sceptical of the claim.", "adj"],
+["talkative", "liking to talk a lot", "chatty, loquacious", "My talkative neighbour never stops.", "adj"],
+["punctual", "arriving exactly on time", "on time, prompt", "Be punctual on competition day.", "adj"],
+["courageous", "brave in difficult situations", "brave, bold", "A courageous nurse saved the child.", "adj"],
+["clumsy", "often dropping or breaking things", "awkward, careless", "I'm so clumsy, I broke another glass.", "adj"],
+["witty", "clever and funny with words", "humorous, clever", "Her witty answer made the jury laugh.", "adj"],
+["greedy", "wanting more than you need", "avaricious, grasping", "The greedy boss kept all the profit.", "adj"]]
 };
 const THEMES=Object.keys(D);
-const ALL=THEMES.flatMap(t=>D[t].map(([w,d,s,e])=>({t,w,d,s,e})));
+const ALL=THEMES.flatMap(t=>D[t].map(([w,d,s,e,p])=>({t,w,d,s,e,adj:p==="adj"})));
 const store={get(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch{return f}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
 let known=new Set(store.get("wb-known",[]));
 let theme=store.get("wb-theme","Tous"), mode="cards", i=0, flipped=false, score={ok:0,n:0}, answered=false;
 const $=id=>document.getElementById(id);
-function pool(){let p=theme==="Tous"?ALL:ALL.filter(x=>x.t===theme);if($("hideKnown").checked)p=p.filter(x=>!known.has(x.w));return p.length?p:(theme==="Tous"?ALL:ALL.filter(x=>x.t===theme))}
+function inTheme(x){return theme==="Tous"||(theme==="Adjectifs"?x.adj:x.t===theme)}
+function pool(){let p=ALL.filter(inTheme);if($("hideKnown").checked)p=p.filter(x=>!known.has(x.w));return p.length?p:ALL.filter(inTheme)}
 let order=[];
 function shuffle(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
 function reset(){order=shuffle(pool());i=0;flipped=false;answered=false;render()}
-function chips(){$("chips").innerHTML=["Tous",...THEMES].map(t=>`<button class="chip" aria-pressed="${t===theme}" data-t="${t}">${t}</button>`).join("");
+function chips(){$("chips").innerHTML=["Tous","Adjectifs",...THEMES].map(t=>`<button class="chip" aria-pressed="${t===theme}" data-t="${t}">${t}</button>`).join("");
   $("chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{theme=b.dataset.t;store.set("wb-theme",theme);chips();score={ok:0,n:0};reset()})}
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function render(){
   const x=order[i];const st=$("stage");
   if(mode==="cards"){
     st.innerHTML=`<div class="card" id="card" tabindex="0" role="button" aria-label="Retourner la carte">
-      <span class="theme">${x.t}${known.has(x.w)?" · su":""}</span>
+      <span class="theme">${x.t}${x.adj?" · adj.":""}${known.has(x.w)?" · su":""}</span>
       <p class="word">${esc(x.w)}</p>
       ${flipped?`<p class="def">${esc(x.d)}</p><p class="syn"><b>Synonymes :</b> ${esc(x.s)}</p><p class="ex">“${esc(x.e)}”</p>`:`<p class="hint">Définis le mot à voix haute, donne un synonyme et une phrase, puis touche la carte pour vérifier.</p>`}
     </div>`;
@@ -290,7 +367,7 @@ function render(){
     const words=x.d.split(" ");
     if(!x._b)x._b={shown:0,phase:"reading",left:5};
     const b=x._b;
-    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t} · buzzer</span>
+    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t}${x.adj?" · adj.":""} · buzzer</span>
       <p class="def">${esc(words.slice(0,b.shown).join(" "))}${b.phase==="reading"?" …":""}</p>
       ${b.phase==="answer"?`<p class="word" style="font-size:2rem">${b.left>0?b.left:"Temps écoulé"}</p><p class="hint">Dis le mot à voix haute maintenant.</p>`:""}
       ${b.phase==="done"?`<p class="word">${esc(x.w)}</p><p class="syn"><b>Synonymes :</b> ${esc(x.s)}</p>
@@ -308,9 +385,9 @@ function render(){
       $("b-ko").onclick=()=>{b.marked=1;score.n++;go(1)};
     }
   }else{
-    const others=shuffle(ALL.filter(y=>y.t===x.t&&y.w!==x.w)).slice(0,3);
+    let cand=ALL.filter(y=>y.t===x.t&&y.w!==x.w&&y.adj===x.adj);if(cand.length<3)cand=ALL.filter(y=>y.adj===x.adj&&y.w!==x.w);const others=shuffle(cand).slice(0,3);
     const opts=x._opts||(x._opts=shuffle([x,...others]));
-    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t} · quel mot correspond ?</span>
+    st.innerHTML=`<div class="card" style="cursor:default"><span class="theme">${x.t}${x.adj?" · adj.":""} · quel mot correspond ?</span>
       <p class="def">${esc(x.d)}</p><div class="choices">${opts.map(o=>`<button data-w="${esc(o.w)}">${esc(o.w)}</button>`).join("")}</div>
       ${answered?`<p class="ex">“${esc(x.e)}”</p>`:""}</div>`;
     st.querySelectorAll(".choices button").forEach(b=>{
@@ -328,7 +405,7 @@ $("hideKnown").onchange=reset;
 function setMode(m){clearTimeout(timer);mode=m;["cards","quiz","buzz"].forEach(k=>$("m-"+k).setAttribute("aria-pressed",m===k));score={ok:0,n:0};ALL.forEach(x=>{delete x._b;delete x._opts});reset()}
 $("m-cards").onclick=()=>setMode("cards");$("m-quiz").onclick=()=>setMode("quiz");$("m-buzz").onclick=()=>setMode("buzz");
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight")go(1);if(e.key==="ArrowLeft")go(-1)});
-if(theme!=="Tous"&&!THEMES.includes(theme))theme="Tous";
+if(theme!=="Tous"&&theme!=="Adjectifs"&&!THEMES.includes(theme))theme="Tous";
 chips();reset();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
